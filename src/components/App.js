@@ -1,6 +1,6 @@
 var React = require('react');
 var AppActions = require('../actions/AppActions');
-//var AppStore = require('../stores/AppStore');
+var AppStore = require('../stores/AppStore');
 //var SearchForm = require('./SearchForm.js');
 //var MovieResults = require('./MovieResults');
 var NavBar = require('./NavBar');
@@ -8,35 +8,25 @@ var Gallery = require('./Gallery');
 var About = require('./About');
 var Content = require('./MainContent');
 
+function getAppState() {
+    return {
+        page:AppStore.getSectionState()
+    }
+}
+
 var App = React.createClass({
     getInitialState:function () {
-        return {
-            page:'content'
-        }
+        return getAppState();
     },
-    handleContentClick: function(){
-        this.setState({
-            page:'content'
-        })
+
+    componentDidMount: function () {
+        AppStore.addChangeListener(this._onChange);
     },
-    handleGalleryClick: function(){
-        this.setState({
-            page:'gallery'
-        })
+    componentWillUnmount: function () {
+        AppStore.removeChangeListener(this._onChange);
     },
-    handleAboutClick: function(){
-        this.setState({
-            page:'about'
-        })
-    },
-    // componentDidMount: function () {
-    //     AppStore.addChangeListener(this._onChange);
-    // },
-    // componentWillUnmount: function () {
-    //     AppStore.removeChangeListener(this._onChange);
-    // },
     render: function () {
-        if(this.state.page == 'content'){
+        if(this.state.page == 'content' || this.state.page == ''){
             var page = <Content/>;
         }else if(this.state.page == 'about'){
             page = <About />;
@@ -45,16 +35,14 @@ var App = React.createClass({
         }
         return(
             <div>
-                <NavBar
-                    page={this.state.page}
-                    contentClick={this.handleContentClick}
-                    galleryClick={this.handleGalleryClick}
-                    aboutClick={this.handleAboutClick}
-                />
+                <NavBar/>
                 {page}
             </div>
         )
     },
+    _onChange:function () {
+        this.setState(getAppState());
+    }
 });
 
 module.exports = App;

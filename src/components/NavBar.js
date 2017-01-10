@@ -9,15 +9,24 @@ var NavBar = React.createClass({
                 <div className="container-fluid">
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav nav-tabs">
-                            <li role="presentation"  onClick={this.props.contentClick}><a href="#">Content</a></li>
-                            <li role="presentation"><a onClick={this.props.galleryClick} href="#">Gallery</a></li>
-                            <li role="presentation"><a onClick={this.props.aboutClick} href="#">About</a></li>
+                            <li role="presentation"  onClick={this.contentClick}><a href="#">Content</a></li>
+                            <li role="presentation"><a onClick={this.galleryClick} href="#">Gallery</a></li>
+                            <li role="presentation"><a onClick={this.aboutClick} href="#">About</a></li>
                         </ul>
                     </div>
                 </div>
             </nav>
         )
     },
+    contentClick:function () {
+        AppActions.changeSection('content');
+    },
+    galleryClick:function () {
+        AppActions.changeSection('gallery');
+    },
+    aboutClick:function () {
+        AppActions.changeSection('about');
+    }
 });
 
 module.exports = NavBar;

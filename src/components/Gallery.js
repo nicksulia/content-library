@@ -5,7 +5,7 @@ var AppStore = require('../stores/AppStore');
 var Gallery = React.createClass({
     render: function () {
         return(
-            <h1>Gallery Content</h1>
+            <h1>Gallery Content(with Flux!)</h1>
         )
     },
 });

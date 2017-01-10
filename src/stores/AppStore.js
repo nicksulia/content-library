@@ -7,9 +7,15 @@ var AppAPI = require('../utils/appAPI.js');
 var CHANGE_EVENT = 'change';
 
 var _data = [];
-var _selected = '';
+var _section = '';
 
 var AppStore = assign({},EventEmitter.prototype,{
+    setSectionState:function (section) {
+        _section = section;
+    },
+    getSectionState:function () {
+        return _section;
+    },
     emitChange: function () {
         this.emit(CHANGE_EVENT);
     },
@@ -25,6 +31,11 @@ AppDispatcher.register(function (payload) {
     var action = payload.action;
 
     switch(action.actionType){
+        case AppConstants.SECTION_CHANGE:
+            console.log('Changing section to '+action.section);
+            AppStore.setSectionState(action.section);
+            AppStore.emitChange(CHANGE_EVENT);
+            break;
     }
 
     return true;
