@@ -1,0 +1,24 @@
+{
+  "name": "reactquiz",
+  "version": "1.0.0",
+  "description": "Simple quiz app in React",
+  "main": "index.js",
+  "scripts": {
+    "webpack-devserver": "webpack-dev-server --port 8090 --host 0.0.0.0",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nick Fury",
+  "license": "ISC",
+  "devDependencies":{
+    "babel-core":"5.8.*",
+    "babel-loader":"5.*",
+    "object-assign":"*",
+    "webpack": "1.12.*",
+    "webpack-dev-server":"*"
+  },
+  "dependencies": {
+    "flux": "^2.1.1",
+    "react":"^15.4.1",
+    "react-dom":"^15.4.1"
+  }
+}
