@@ -5,7 +5,7 @@ var AppStore = require('../stores/AppStore');
 var About = React.createClass({
     render: function () {
         return(
-            <h1>About Content</h1>
+            <h1>About Content (with Flux!)</h1>
         )
     },
 });

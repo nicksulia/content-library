@@ -7,7 +7,7 @@ var AppAPI = require('../utils/appAPI.js');
 var CHANGE_EVENT = 'change';
 
 var _data = [];
-var _section = '';
+var _section = 'content';
 
 var AppStore = assign({},EventEmitter.prototype,{
     setSectionState:function (section) {

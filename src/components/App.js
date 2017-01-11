@@ -26,7 +26,7 @@ var App = React.createClass({
         AppStore.removeChangeListener(this._onChange);
     },
     render: function () {
-        if(this.state.page == 'content' || this.state.page == ''){
+        if(this.state.page == 'content'){
             var page = <Content/>;
         }else if(this.state.page == 'about'){
             page = <About />;
