@@ -7,11 +7,10 @@ var NavBar = require('./NavBar');
 var Gallery = require('./Gallery');
 var About = require('./About');
 var Content = require('./MainContent');
+var CreateFile = require('./CreateFile');
 
 function getAppState() {
-    return {
-        page:AppStore.getSectionState()
-    }
+    return AppStore.getSectionState();
 }
 
 var App = React.createClass({
@@ -26,12 +25,15 @@ var App = React.createClass({
         AppStore.removeChangeListener(this._onChange);
     },
     render: function () {
+        var page = '';
         if(this.state.page == 'content'){
-            var page = <Content/>;
+            page = <Content content={this.state.content}/>;
         }else if(this.state.page == 'about'){
             page = <About />;
         }else if(this.state.page == 'gallery'){
             page = <Gallery/>;
+        } else if(this.state.page == 'add'){
+            page = <CreateFile/>;
         }
         return(
             <div>
