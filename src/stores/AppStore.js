@@ -14,6 +14,23 @@ var socket = {};
 var uploader = {};
 var _complete = false;
 var AppStore = assign({},EventEmitter.prototype,{
+    getContentData:function () {
+        return _data;
+    },
+    contentList:function (type) {
+        AppAPI.contentList().then(({data}) => {
+            _data = data;
+            if(type !== 'all'){
+                _data = _data.map((element) => {
+                    if(element.contentType == type) {
+                        return element;
+                    }
+                });
+            }
+        });
+
+
+    },
     getStreamingData:function () {
         return _streamingData;
     },
@@ -59,7 +76,7 @@ AppDispatcher.register(function (payload) {
 
     switch(action.actionType){
         case AppConstants.SECTION_CHANGE:
-            console.log('Changing section to '+action.section);
+            //console.log('Changing section to '+action.section);
             AppStore.setSectionState(action.section,action.content);
             AppStore.emitChange(CHANGE_EVENT);
             break;
@@ -84,6 +101,14 @@ AppDispatcher.register(function (payload) {
             break;
         case AppConstants.STREAMING_DATA:
             AppStore.setStreamingData(action.file);
+            AppStore.emitChange(CHANGE_EVENT);
+            break;
+        case AppConstants.SEND_META:
+            AppAPI.createContent(action.meta);
+            AppStore.emitChange(CHANGE_EVENT);
+            break;
+        case AppConstants.GET_CONTENT:
+            AppStore.contentList(action.type);
             AppStore.emitChange(CHANGE_EVENT);
             break;
     }

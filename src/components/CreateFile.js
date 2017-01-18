@@ -26,6 +26,8 @@ var CreateFile = React.createClass({
             <div>
                 <h1>File Creation</h1>
                 <form onSubmit={this.onSubmit}>
+                    <input type="text" ref="title" required=""/>
+                    <input type="textarea" ref="text" required=""/>
                         <input type="file" ref="file"/>
                         <input type="submit" value="Upload" />
                 </form>
@@ -38,6 +40,12 @@ var CreateFile = React.createClass({
     },
     onSubmit:function (e) {
         e.preventDefault();
+        var meta = {
+            title:this.refs.title.value,
+            text: this.refs.text.value,
+            contentType:'video'
+        };
+        AppActions.sendMeta(meta);
         var file = {
             content:this.refs.file,
             type:this.refs.file.files[0].type,

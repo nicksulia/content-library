@@ -2,6 +2,18 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 
 var AppActions = {
+    getContent: function (type) {
+        AppDispatcher.handleViewAction({
+            actionType:AppConstants.GET_CONTENT,
+            type:type
+        })
+    },
+    sendMeta: function (meta) {
+        AppDispatcher.handleViewAction({
+            actionType:AppConstants.SEND_META,
+            meta:meta
+        })
+    },
     changeSection: function (section) {
             AppDispatcher.handleViewAction({
                 actionType:AppConstants.SECTION_CHANGE,

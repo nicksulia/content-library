@@ -13,8 +13,8 @@ var NavBar = React.createClass({
                                 <a href="#">Content</a>
                                 <ul className="nav nav-tabs dropdown-inside">
                                     <li onClick={this.textClick}><a href="#">Text</a></li>
-                                    <li onClick={this.audioClick}><a href="#">Video</a></li>
-                                    <li onClick={this.videoClick}><a href="#">Audio</a></li>
+                                    <li onClick={this.audioClick}><a href="#">Audio</a></li>
+                                    <li onClick={this.videoClick}><a href="#">Video</a></li>
                                 </ul>
                             </li>
                             <li role="presentation" onClick={this.galleryClick}><a href="#">Gallery</a></li>

@@ -4,6 +4,9 @@ ul.dropdown-inside {
     list-style-type: none;
     padding: 0;
 }
+img {
+    width: 100%;
+}
 ul.dropdown-inside {
     position: absolute;
     left: -9999px;
@@ -14,8 +17,32 @@ ul.dropdown li.dropdown-top {
     margin: 0 1px 0 0;
 }
 ul.dropdown li.dropdown-top:hover .dropdown-inside {
+    z-index: 9999;
     display: block;
     left: 0;
 }
 ul.dropdown .dropdown-inside { background: #fff; }
 ul.dropdown .dropdown-inside a:hover { background: #efefef; }
+
+.scroll {
+    overflow: auto;
+    overflow-y: scroll;
+    height: 25em;
+    border: 1px solid #000;
+    text-align: center;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: #666 0px 5px 5px;
+    -moz-box-shadow: #666 0px 2px 3px;
+    box-shadow: #666 0px 2px 3px;
+    background: #EEFF99;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#EEFF99), to(#66EE33));
+    background: -webkit-linear-gradient(#EEFF99, #66EE33);
+    background: -moz-linear-gradient(#EEFF99, #66EE33);
+    background: -ms-linear-gradient(#EEFF99, #66EE33);
+    background: -o-linear-gradient(#EEFF99, #66EE33);
+    background: linear-gradient(#EEFF99, #66EE33);
+    -pie-background: linear-gradient(#EEFF99, #66EE33);
+    behavior: url(./css/PIE.htc);
+}
