@@ -3,6 +3,7 @@ var webpack = require('webpack');
 module.exports = {
     entry:[
         'es5-shim',
+        'babel-polyfill',
         './src/main.js'
     ],
     output: {
@@ -12,11 +13,11 @@ module.exports = {
     plugins: [
         new webpack.DefinePlugin({
             // A common mistake is not stringifying the "production" string.
-            'process.env.NODE_ENV': JSON.stringify('development')
+            'process.env.NODE_ENV': JSON.stringify('production')
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
-                warnings: true
+                warnings: false
             }
         })
     ],

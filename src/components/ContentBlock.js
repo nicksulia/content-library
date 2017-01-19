@@ -4,8 +4,8 @@ var AppStore = require('../stores/AppStore');
 
 var ContentBlock = React.createClass({
     render: function () {
-        var poster = 'http://localhost:3000/'+this.props.content.poster;
-        var link = 'http://localhost:3000/'+this.props.content.resources[0];
+        var poster = 'http://192.168.1.4:3000/'+this.props.content.poster;
+        var link = 'http://192.168.1.4:3000/'+this.props.content.resources[0];
         return(
             <div className="well">
                 <div className="row">

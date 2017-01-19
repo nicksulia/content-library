@@ -22,14 +22,31 @@ var CreateFile = React.createClass({
         } else if(this.state.size){
             complete = <p>Streaming... sent {this.state.sent} / {this.state.size} bytes.</p>;
         } else complete = '';
+        if(window.File && window.FileReader){
+            var buttons =
+                    <div>
+                        <button className="btn btn-primary btn-block">Text</button>
+                        <button className="btn btn-primary btn-block">Video</button>
+                        <button className="btn btn-primary btn-block">Audio</button>
+                    </div>
+        } else {
+            buttons =
+                    <div>
+                        <h3>Sorry, but your browser doesn't support <code>File API</code></h3>
+                        <button className="btn btn-primary btn-block">Text</button>
+                    </div>
+        }
         return(
             <div>
                 <h1>File Creation</h1>
+                {buttons}
                 <form onSubmit={this.onSubmit}>
-                    <input type="text" ref="title" required=""/>
-                    <input type="textarea" ref="text" required=""/>
+                    <div className="form-group">
+                    <input type="text" className="form-control" ref="title" required=""/>
+                    <input type="textarea" className="form-control" ref="text" required=""/>
                         <input type="file" ref="file"/>
-                        <input type="submit" value="Upload" />
+                    </div>
+                        <input className="" type="submit" value="Upload" />
                 </form>
                 {complete}
             </div>

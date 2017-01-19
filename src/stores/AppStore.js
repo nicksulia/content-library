@@ -14,22 +14,14 @@ var socket = {};
 var uploader = {};
 var _complete = false;
 var AppStore = assign({},EventEmitter.prototype,{
+    setContentData:function (data) {
+        _data = data;
+    },
     getContentData:function () {
         return _data;
     },
-    contentList:function (type) {
-        AppAPI.contentList().then(({data}) => {
-            _data = data;
-            if(type !== 'all'){
-                _data = _data.map((element) => {
-                    if(element.contentType == type) {
-                        return element;
-                    }
-                });
-            }
-        });
-
-
+    contentList:function () {
+        AppAPI.contentList();
     },
     getStreamingData:function () {
         return _streamingData;
@@ -111,7 +103,11 @@ AppDispatcher.register(function (payload) {
             AppStore.contentList(action.type);
             AppStore.emitChange(CHANGE_EVENT);
             break;
-    }
+        case AppConstants.RECEIVE_CONTENT_RESULTS:
+            AppStore.setContentData(action.data);
+            AppStore.emitChange(CHANGE_EVENT);
+            break;
+}
 
     return true;
 });

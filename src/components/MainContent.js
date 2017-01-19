@@ -16,7 +16,7 @@ var MainContent = React.createClass({
     getInitialState:function () {
         return getContentState();
     },
-    componentWillMount() {
+    componentWillMount:function() {
         AppActions.getContent(this.props.content);
     },
     componentDidMount: function () {

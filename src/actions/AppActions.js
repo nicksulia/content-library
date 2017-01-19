@@ -2,6 +2,12 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 
 var AppActions = {
+    receiveContentResults:function (data) {
+        AppDispatcher.handleViewAction({
+            actionType:AppConstants.RECEIVE_CONTENT_RESULTS,
+            data:data
+        });
+    },
     getContent: function (type) {
         AppDispatcher.handleViewAction({
             actionType:AppConstants.GET_CONTENT,

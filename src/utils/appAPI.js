@@ -1,23 +1,39 @@
 var AppActions = require('../actions/AppActions');
 var io = require('socket.io-client');
 var SocketIOFileClient = require('socket.io-file-client');
-var axios = require('axios');
 
 
 module.exports = {
     contentList:function() {
-        return axios.get('http://localhost:3000/content');
+        var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
+
+        var xhr = new XHR();
+        var data = [];
+// (2) запрос на другой домен :)
+        xhr.open('GET', 'http://192.168.1.4:3000/content', true);
+        // xhr.onprogress = function() {}; // no aborting
+        // xhr.ontimeout = function() {}; // "
+        xhr.onload = function() {
+            data = JSON.parse(this.responseText);
+            AppActions.receiveContentResults(data);
+        };
+
+        xhr.onerror = function() {
+            alert( 'Ошибка ' + this.status );
+        };
+
+        xhr.send();
     },
 
-    createContent:function(data) {
-        return axios.post('http://localhost:3000/content', data);
-    },
-
-    deleteContent:function(noteId) {
-        return axios.delete(`http://localhost:3000/content/${noteId}`);
-    },
+    // createContent:function(data) {
+    //     return axios.post('http://localhost:3000/content', data);
+    // },
+    //
+    // deleteContent:function(noteId) {
+    //     return axios.delete(`http://localhost:3000/content/${noteId}`);
+    // },
     socketCreate:function () {
-        return io('http://localhost:3000');
+        return io('http://192.168.1.4:3000');
     },
     uploaderCreate:function (socket) {
         return new SocketIOFileClient(socket);
@@ -56,7 +72,7 @@ module.exports = {
             });
         }
     },
-    searchMovies: function (movie) {
+    searchMovies: function () {
         $.ajax({
             url:'http://localhost:3000/content',
             dataType:'json',
