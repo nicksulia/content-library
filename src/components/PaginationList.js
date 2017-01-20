@@ -1,14 +1,14 @@
 var React = require('react');
-var AppActions = require('../../actions/AppActions');
-var AppStore = require('../../stores/AppStore');
-var ContentBlock = require('../ContentBlock');
+var AppActions = require('../actions/AppActions');
+var AppStore = require('../stores/AppStore');
+var PaginationBlock = require('./PaginationBlock.js');
 
-var TextContent = React.createClass({
+var PaginationList = React.createClass({
     render: function () {
         if(this.props.content[0]) {
             var contentBlock = this.props.content.map(function (data, i) {
                 return (
-                    <ContentBlock content={data} key={i}/>
+                    <PaginationBlock content={data} key={i}/>
                 )
             });
         } else {
@@ -26,4 +26,4 @@ var TextContent = React.createClass({
     },
 });
 
-module.exports = TextContent;
+module.exports = PaginationList;

@@ -6,42 +6,21 @@ var TextContent = require('./MainContent/TextContent');
 var AudioContent = require('./MainContent/AudioContent');
 var VideoContent = require('./MainContent/VideoContent');
 
-function getContentState() {
-    return {
-        content:AppStore.getContentData()
-    }
-}
-
 var MainContent = React.createClass({
-    getInitialState:function () {
-        return getContentState();
-    },
-    componentWillMount:function() {
-        AppActions.getContent(this.props.content);
-    },
-    componentDidMount: function () {
-        AppStore.addChangeListener(this._onChange);
-    },
-    componentWillUnmount: function () {
-        AppStore.removeChangeListener(this._onChange);
-    },
     render: function () {
         var content = '';
         if (this.props.content == 'all') {
-            content = <AllContent/>
+            content = <AllContent content = {this.props.data}/>
         }else if (this.props.content == 'text') {
-            content = <TextContent/>
+            content = <TextContent content = {this.props.data}/>
         }else if (this.props.content == 'audio') {
-            content = <AudioContent/>
+            content = <AudioContent content = {this.props.data}/>
         }else if (this.props.content == 'video') {
-            content = <VideoContent content = {this.state.content}/>
+            content = <VideoContent content = {this.props.data}/>
         }
         return(
                 content
         )
-    },
-    _onChange:function () {
-        this.setState(getContentState());
     }
 });
 

@@ -10,14 +10,22 @@ var Content = require('./MainContent');
 var CreateFile = require('./CreateFile');
 
 function getAppState() {
-    return AppStore.getSectionState();
+    return {
+        page:AppStore.getSectionState(),
+        content:AppStore.getContentState(),
+        streamingData:AppStore.getStreamingData(),
+        data:AppStore.getContentData()
+
+    }
 }
 
 var App = React.createClass({
     getInitialState:function () {
         return getAppState();
     },
-
+    componentWillMount:function () {
+        AppActions.getContent();
+    },
     componentDidMount: function () {
         AppStore.addChangeListener(this._onChange);
     },
@@ -27,7 +35,7 @@ var App = React.createClass({
     render: function () {
         var page = '';
         if(this.state.page == 'content'){
-            page = <Content content={this.state.content}/>;
+            page = <Content content={this.state.content} data = {this.state.data}/>;
         }else if(this.state.page == 'about'){
             page = <About />;
         }else if(this.state.page == 'gallery'){

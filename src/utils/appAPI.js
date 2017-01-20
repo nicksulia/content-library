@@ -1,7 +1,7 @@
 var AppActions = require('../actions/AppActions');
 var io = require('socket.io-client');
 var SocketIOFileClient = require('socket.io-file-client');
-
+var config = require('../../config.js');
 
 module.exports = {
     contentList:function() {
@@ -10,10 +10,11 @@ module.exports = {
         var xhr = new XHR();
         var data = [];
 // (2) запрос на другой домен :)
-        xhr.open('GET', 'http://192.168.1.4:3000/content', true);
+        xhr.open('GET', config.apiPrefix+'/content', true);
         // xhr.onprogress = function() {}; // no aborting
         // xhr.ontimeout = function() {}; // "
         xhr.onload = function() {
+            console.log('loaded');
             data = JSON.parse(this.responseText);
             AppActions.receiveContentResults(data);
         };
@@ -33,7 +34,7 @@ module.exports = {
     //     return axios.delete(`http://localhost:3000/content/${noteId}`);
     // },
     socketCreate:function () {
-        return io('http://192.168.1.4:3000');
+        return io(config.apiPrefix);
     },
     uploaderCreate:function (socket) {
         return new SocketIOFileClient(socket);

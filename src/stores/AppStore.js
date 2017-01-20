@@ -10,19 +10,37 @@ var _streamingData = {};
 var _data = [];
 var _section = 'content';
 var _content= 'all';
-var socket = {};
 var uploader = {};
 var _complete = false;
+var _currentPage = 1;
+
 var AppStore = assign({},EventEmitter.prototype,{
+
     setContentData:function (data) {
         _data = data;
     },
     getContentData:function () {
-        return _data;
+        var localData = _data;
+        if(_content === 'all') {
+            return localData;
+        } else {
+            return localData.map(function (el) {
+                if(el.contentType == _content) {
+                    return el;
+                }
+            });
+        }
     },
+
+
+
     contentList:function () {
+        //receiving _data
         AppAPI.contentList();
     },
+
+
+
     getStreamingData:function () {
         return _streamingData;
     },
@@ -39,18 +57,21 @@ var AppStore = assign({},EventEmitter.prototype,{
     getComplete:function () {
         return _complete;
     },
-    getUploadInfo:function () {
-        return uploadInfo;
-    },
+
+
+
     setSectionState:function (section) {
         _section = section;
-        _content = arguments[1];
+    },
+    setContentState:function (content) {
+        _content = content
     },
     getSectionState:function () {
-        return {
-            page:_section,
-            content:_content
-        }
+        return _section;
+
+    },
+    getContentState:function () {
+        return _content;
     },
     emitChange: function () {
         this.emit(CHANGE_EVENT);
@@ -69,7 +90,11 @@ AppDispatcher.register(function (payload) {
     switch(action.actionType){
         case AppConstants.SECTION_CHANGE:
             //console.log('Changing section to '+action.section);
-            AppStore.setSectionState(action.section,action.content);
+            AppStore.setSectionState(action.section);
+            if(action.type !== ''){
+                AppStore.contentList(action.type);
+                AppStore.setContentState(action.type);
+            }
             AppStore.emitChange(CHANGE_EVENT);
             break;
         case AppConstants.FILE_SEND:
@@ -77,8 +102,7 @@ AppDispatcher.register(function (payload) {
             AppStore.emitChange(CHANGE_EVENT);
             break;
         case AppConstants.SOCKET_READY:
-            socket = AppAPI.socketCreate();
-            uploader = AppAPI.uploaderCreate(socket);
+            uploader = AppAPI.uploaderCreate(AppAPI.socketCreate());
             AppAPI.socketReady(uploader);
             AppStore.emitChange(CHANGE_EVENT);
             break;
@@ -96,7 +120,7 @@ AppDispatcher.register(function (payload) {
             AppStore.emitChange(CHANGE_EVENT);
             break;
         case AppConstants.SEND_META:
-            AppAPI.createContent(action.meta);
+            //TODO here we are sending meta information like description or others.
             AppStore.emitChange(CHANGE_EVENT);
             break;
         case AppConstants.GET_CONTENT:

@@ -20,11 +20,11 @@ var AppActions = {
             meta:meta
         })
     },
-    changeSection: function (section) {
+    changeSection: function (section,type) {
             AppDispatcher.handleViewAction({
                 actionType:AppConstants.SECTION_CHANGE,
                 section:section,
-                content:arguments[1] || ''
+                type:type || ''
             });
     },
     sendFile:function (file) {

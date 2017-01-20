@@ -3,7 +3,6 @@ var webpack = require('webpack');
 module.exports = {
     entry:[
         'es5-shim',
-        'babel-polyfill',
         './src/main.js'
     ],
     output: {

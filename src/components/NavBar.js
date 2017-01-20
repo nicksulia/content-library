@@ -43,7 +43,7 @@ var NavBar = React.createClass({
         e.stopPropagation();
     },
     contentClick:function () {
-            AppActions.changeSection('content','all');
+        AppActions.changeSection('content','all');
     },
     galleryClick:function () {
         AppActions.changeSection('gallery');
