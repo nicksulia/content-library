@@ -12,24 +12,47 @@ var _section = 'content';
 var _content= 'all';
 var uploader = {};
 var _complete = false;
-var _currentPage = 1;
+var _currentPage = 0;
+var paginationCursor = 1;
+var _paginatedData = [];
 
 var AppStore = assign({},EventEmitter.prototype,{
-
-    setContentData:function (data) {
-        _data = data;
+    setCurrentPage:function (page) {
+        _currentPage = page;
     },
-    getContentData:function () {
-        var localData = _data;
-        if(_content === 'all') {
-            return localData;
+    getCurrentPage:function () {
+        return _currentPage;
+    },
+    getPaginatedData: function () {
+        return _paginatedData;
+    },
+    setPaginatedData:function (data) {
+        var pointer = 0;
+        var cursor = Math.ceil(data.length/paginationCursor);
+        for(var i = 0;i < cursor;i++){
+            _paginatedData[i] = [];
+            for(var j = 0; j < paginationCursor;j++) {
+                _paginatedData[i].push(data[pointer++]);
+                if(data.length === pointer) {
+                    break;
+                }
+            }
+        }
+    },
+    setContentData:function (data) {
+        if (_content === 'all') {
+            _data = data;
         } else {
-            return localData.map(function (el) {
-                if(el.contentType == _content) {
+            _data = data.filter(function (el) {
+                if(el.contentType === _content) {
                     return el;
                 }
-            });
+            })
         }
+        this.setPaginatedData(_data);
+    },
+    getContentData:function () {
+        return _data;
     },
 
 
@@ -89,7 +112,6 @@ AppDispatcher.register(function (payload) {
 
     switch(action.actionType){
         case AppConstants.SECTION_CHANGE:
-            //console.log('Changing section to '+action.section);
             AppStore.setSectionState(action.section);
             if(action.type !== ''){
                 AppStore.contentList(action.type);
@@ -129,6 +151,10 @@ AppDispatcher.register(function (payload) {
             break;
         case AppConstants.RECEIVE_CONTENT_RESULTS:
             AppStore.setContentData(action.data);
+            AppStore.emitChange(CHANGE_EVENT);
+            break;
+        case AppConstants.CHANGE_CURRENT_PAGE:
+            AppStore.setCurrentPage(action.page);
             AppStore.emitChange(CHANGE_EVENT);
             break;
 }

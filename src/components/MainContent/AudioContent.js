@@ -5,23 +5,25 @@ var ContentBlock = require('../ContentBlock');
 
 var AudioContent = React.createClass({
     render: function () {
-        if(this.props.content[0]) {
-            var contentBlock = this.props.content.map(function (data, i) {
-                return (
-                    <ContentBlock content={data} key={i}/>
-                )
-            });
+        console.log('here r2');
+        if(this.props.content.length) {
+            var display =
+                <div>
+                    <h3 className="text-center">Results</h3>
+                    {
+                        this.props.content[this.props.paginationKey].map(function (data, i) {
+                            return (
+                                <ContentBlock content={data} key={i}/>
+                            )
+
+                        })
+                    }
+                </div>
         } else {
-            contentBlock = '';
+            display = null;
         }
         return(
-            <div>
-
-                <h3 className="text-center">Results</h3>
-                {
-                    contentBlock
-                }
-            </div>
+            display
         )
     },
 });

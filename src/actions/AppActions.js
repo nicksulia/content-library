@@ -2,6 +2,13 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 
 var AppActions = {
+    changeCurrentPage:function (page) {
+        AppDispatcher.handleViewAction({
+            actionType:AppConstants.CHANGE_CURRENT_PAGE,
+            page:page
+        });
+
+    },
     receiveContentResults:function (data) {
         AppDispatcher.handleViewAction({
             actionType:AppConstants.RECEIVE_CONTENT_RESULTS,

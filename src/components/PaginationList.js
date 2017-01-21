@@ -5,23 +5,27 @@ var PaginationBlock = require('./PaginationBlock.js');
 
 var PaginationList = React.createClass({
     render: function () {
-        if(this.props.content[0]) {
-            var contentBlock = this.props.content.map(function (data, i) {
-                return (
-                    <PaginationBlock content={data} key={i}/>
-                )
-            });
+        if(this.props.keys) {
+            var paginationBlock = [];
+            for (var i = 0; i < this.props.keys;i++) {
+                paginationBlock[i] = i;
+            }
+            paginationBlock = paginationBlock.map(function (i) {
+                    return (
+                        <PaginationBlock keys={{"key":i}}/>
+                    )
+                })
+
+
         } else {
-            contentBlock = '';
+            paginationBlock = '';
         }
         return(
-            <div>
-
-                <h3 className="text-center">Results</h3>
-                {
-                    contentBlock
-                }
-            </div>
+                <ul className="pagination">
+                    {
+                        paginationBlock
+                    }
+                </ul>
         )
     },
 });

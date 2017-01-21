@@ -14,7 +14,9 @@ function getAppState() {
         page:AppStore.getSectionState(),
         content:AppStore.getContentState(),
         streamingData:AppStore.getStreamingData(),
-        data:AppStore.getContentData()
+        data:AppStore.getContentData(),
+        paginatedData:AppStore.getPaginatedData(),
+        currentPage:AppStore.getCurrentPage()
 
     }
 }
@@ -35,7 +37,10 @@ var App = React.createClass({
     render: function () {
         var page = '';
         if(this.state.page == 'content'){
-            page = <Content content={this.state.content} data = {this.state.data}/>;
+            page = <Content
+                currentPaginationPage = {this.state.currentPage}
+                content={this.state.content}
+                data = {this.state.paginatedData}/>;
         }else if(this.state.page == 'about'){
             page = <About />;
         }else if(this.state.page == 'gallery'){

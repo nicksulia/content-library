@@ -14,7 +14,6 @@ module.exports = {
         // xhr.onprogress = function() {}; // no aborting
         // xhr.ontimeout = function() {}; // "
         xhr.onload = function() {
-            console.log('loaded');
             data = JSON.parse(this.responseText);
             AppActions.receiveContentResults(data);
         };
