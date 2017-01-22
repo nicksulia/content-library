@@ -6,13 +6,17 @@ var config = require('../../config.js');
 
 var ContentBlock = React.createClass({
     render: function () {
-
+        if(this.props.paginationKey.current === this.props.keys.key) {
+            var active = 'active';
+        }
+        else {
+            active = '';
+        }
         return(
-            <li onClick={this.onClick}><a href="#">{this.props.keys.key+1}</a></li>
+            <li onClick={this.onClick}><a className={active} href="#">{this.props.keys.key+1}</a></li>
         )
     },
     onClick:function (ev) {
-        console.log(this.props.keys.key);
         ev.stopPropagation();
         AppActions.changeCurrentPage(this.props.keys.key);
     }

@@ -17,6 +17,21 @@ var paginationCursor = 1;
 var _paginatedData = [];
 
 var AppStore = assign({},EventEmitter.prototype,{
+    sortContent:function (sortBy) {
+        _data = _data.sort(function (a,b) {
+            // if(a[sortBy] > b[sortBy]) {
+            //     return 1;
+            // }
+            // if(a[sortBy] < b[sortBy]) {
+            //     return -1;
+            // }
+            // if(a[sortBy] === b[sortBy]) {
+            //     return 1;
+            // }
+            return a[sortBy].localeCompare(b[sortBy]);
+        });
+        this.setPaginatedData(_data);
+    },
     setCurrentPage:function (page) {
         _currentPage = page;
     },
@@ -155,6 +170,10 @@ AppDispatcher.register(function (payload) {
             break;
         case AppConstants.CHANGE_CURRENT_PAGE:
             AppStore.setCurrentPage(action.page);
+            AppStore.emitChange(CHANGE_EVENT);
+            break;
+        case AppConstants.SORT_CONTENT:
+            AppStore.sortContent(action.sortBy);
             AppStore.emitChange(CHANGE_EVENT);
             break;
 }

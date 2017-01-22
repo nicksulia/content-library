@@ -6,6 +6,7 @@ var TextContent = require('./MainContent/TextContent');
 var AudioContent = require('./MainContent/AudioContent');
 var VideoContent = require('./MainContent/VideoContent');
 var PaginationList = require('./PaginationList.js');
+var ControlPanel = require('./ControlPanel');
 
 var MainContent = React.createClass({
     render: function () {
@@ -21,8 +22,9 @@ var MainContent = React.createClass({
         }
         return(
             <div>
+                <ControlPanel/>
                 {content}
-                <PaginationList keys = {this.props.data.length}/>
+                <PaginationList keys = {this.props.data.length} paginationKey = {this.props.currentPaginationPage}/>
             </div>
         )
     }

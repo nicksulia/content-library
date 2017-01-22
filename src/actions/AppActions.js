@@ -2,6 +2,12 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 
 var AppActions = {
+    sortContent:function (sortBy) {
+        AppDispatcher.handleViewAction({
+            actionType:AppConstants.SORT_CONTENT,
+            sortBy:sortBy
+        });
+    },
     changeCurrentPage:function (page) {
         AppDispatcher.handleViewAction({
             actionType:AppConstants.CHANGE_CURRENT_PAGE,

@@ -5,6 +5,7 @@ var PaginationBlock = require('./PaginationBlock.js');
 
 var PaginationList = React.createClass({
     render: function () {
+        var self = this;
         if(this.props.keys) {
             var paginationBlock = [];
             for (var i = 0; i < this.props.keys;i++) {
@@ -12,7 +13,7 @@ var PaginationList = React.createClass({
             }
             paginationBlock = paginationBlock.map(function (i) {
                     return (
-                        <PaginationBlock keys={{"key":i}}/>
+                        <PaginationBlock keys={{"key":i}} paginationKey={{'current':self.props.paginationKey}}/>
                     )
                 })
 
