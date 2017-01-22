@@ -8,23 +8,20 @@ var AllContent = React.createClass({
         // console.log('here r1');
         // console.log(this.props.content.length);
         if(this.props.content.length) {
-            var display =
-                <div>
-                    <h3 className="text-center">Results</h3>
-                    {
-                        this.props.content[this.props.paginationKey].map(function (data, i) {
+            var display = this.props.content[this.props.paginationKey].map(function (data, i) {
                             return (
                                 <ContentBlock content={data} key={i}/>
                             )
+                        });
 
-                        })
-                    }
-                </div>
         } else {
-            display = null;
+            display = '';
         }
         return(
-            display
+            <div>
+                <h3 className="text-center">Results</h3>
+                {display}
+            </div>
         )
     },
 });

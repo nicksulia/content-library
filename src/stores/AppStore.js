@@ -15,8 +15,17 @@ var _complete = false;
 var _currentPage = 0;
 var paginationCursor = 1;
 var _paginatedData = [];
+var filterType = 'title';
 
 var AppStore = assign({},EventEmitter.prototype,{
+    filterContent:function (filterBy) {
+        var data = _data.filter(function (el) {
+            if(el[filterType].toLowerCase().indexOf(filterBy.toLowerCase()) !== -1) {
+                return el;
+            }
+        });
+        this.setPaginatedData(data);
+    },
     sortContent:function (sortBy) {
         _data = _data.sort(function (a,b) {
             // if(a[sortBy] > b[sortBy]) {
@@ -42,17 +51,21 @@ var AppStore = assign({},EventEmitter.prototype,{
         return _paginatedData;
     },
     setPaginatedData:function (data) {
-        var pointer = 0;
-        var cursor = Math.ceil(data.length/paginationCursor);
-        for(var i = 0;i < cursor;i++){
-            _paginatedData[i] = [];
-            for(var j = 0; j < paginationCursor;j++) {
-                _paginatedData[i].push(data[pointer++]);
-                if(data.length === pointer) {
-                    break;
+        if(data.length) {
+            var pointer = 0;
+            var cursor = Math.ceil(data.length/paginationCursor);
+            for(var i = 0;i < cursor;i++){
+                _paginatedData[i] = [];
+                for(var j = 0; j < paginationCursor;j++) {
+                    _paginatedData[i].push(data[pointer++]);
+                    if(data.length === pointer) {
+                        break;
+                    }
                 }
             }
-        }
+        } else _paginatedData = [[]];
+
+        console.log(_paginatedData);
     },
     setContentData:function (data) {
         if (_content === 'all') {
@@ -174,6 +187,10 @@ AppDispatcher.register(function (payload) {
             break;
         case AppConstants.SORT_CONTENT:
             AppStore.sortContent(action.sortBy);
+            AppStore.emitChange(CHANGE_EVENT);
+            break;
+        case AppConstants.FILTER_CONTENT:
+            AppStore.filterContent(action.value);
             AppStore.emitChange(CHANGE_EVENT);
             break;
 }

@@ -2,6 +2,12 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 
 var AppActions = {
+    filterContent:function (value) {
+        AppDispatcher.handleViewAction({
+            actionType:AppConstants.FILTER_CONTENT,
+            value:value
+        });
+    },
     sortContent:function (sortBy) {
         AppDispatcher.handleViewAction({
             actionType:AppConstants.SORT_CONTENT,

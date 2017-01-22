@@ -18,6 +18,7 @@ var NavBar = React.createClass({
                                 </ul>
                             </li>
                             <li role="presentation" onClick={this.galleryClick}><a href="#">Gallery</a></li>
+                            <li role="presentation" onClick={this.contactsClick}><a href="#">Contacts</a></li>
                             <li role="presentation" onClick={this.aboutClick}><a href="#">About</a></li>
                             <li role="presentation" onClick={this.addClick}><a href="#">Add New</a></li>
                         </ul>
@@ -25,6 +26,9 @@ var NavBar = React.createClass({
                 </div>
             </nav>
         )
+    },
+    contactsClick:function (e) {
+        AppActions.changeSection('contacts');
     },
     addClick:function (e) {
         AppActions.socketReady();

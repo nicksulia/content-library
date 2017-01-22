@@ -25,13 +25,20 @@ module.exports = {
         xhr.send();
     },
 
-    // createContent:function(data) {
-    //     return axios.post('http://localhost:3000/content', data);
-    // },
-    //
-    // deleteContent:function(noteId) {
-    //     return axios.delete(`http://localhost:3000/content/${noteId}`);
-    // },
+    createContent:function(data) {
+        $.ajax({
+            type: "POST",
+            url: config.apiPrefix+'/content',
+            data: data,
+            dataType: 'json',
+            success: function () {
+                alert('Sending Complete');
+            }.bind(this),
+            error:function (xhr,status,err) {
+                alert(err);
+            }.bind(this)
+        });
+    },
     socketCreate:function () {
         return io(config.apiPrefix);
     },
@@ -72,17 +79,17 @@ module.exports = {
             });
         }
     },
-    searchMovies: function () {
-        $.ajax({
-            url:'http://localhost:3000/content',
-            dataType:'json',
-            cache:false,
-            success:function (data) {
-                AppActions.receiveMovieResults(data.Search);
-            }.bind(this),
-            error:function (xhr,status,err) {
-                alert(err);
-            }.bind(this)
-        });
-    }
+    // searchMovies: function () {
+    //     $.ajax({
+    //         url:'http://localhost:3000/content',
+    //         dataType:'json',
+    //         cache:false,
+    //         success:function (data) {
+    //             AppActions.receiveMovieResults(data.Search);
+    //         }.bind(this),
+    //         error:function (xhr,status,err) {
+    //             alert(err);
+    //         }.bind(this)
+    //     });
+    // }
 }

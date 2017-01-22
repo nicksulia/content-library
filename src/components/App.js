@@ -8,6 +8,7 @@ var Gallery = require('./Gallery');
 var About = require('./About');
 var Content = require('./MainContent');
 var CreateFile = require('./CreateFile');
+var Contacts = require('./Contacts');
 
 function getAppState() {
     return {
@@ -47,6 +48,8 @@ var App = React.createClass({
             page = <Gallery/>;
         } else if(this.state.page == 'add'){
             page = <CreateFile/>;
+        } else if(this.state.page == 'contacts'){
+            page = <Contacts/>;
         }
         return(
             <div>
