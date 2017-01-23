@@ -29,25 +29,27 @@ var CreateFile = React.createClass({
                         <button className="btn btn-primary btn-block">Video</button>
                         <button className="btn btn-primary btn-block">Audio</button>
                     </div>
+            var form =
+                <form onSubmit={this.onSubmit}>
+                <div className="form-group">
+                    <input type="text" className="form-control" ref="title" required=""/>
+                    <input type="textarea" className="form-control" ref="text" required=""/>
+                    <input type="file" ref="file"/>
+                </div>
+                <input className="" type="submit" value="Upload" />
+            </form>
         } else {
             buttons =
                     <div>
                         <h3>Sorry, but your browser doesn't support <code>File API</code></h3>
-                        <button className="btn btn-primary btn-block">Text</button>
                     </div>
+            form = '';
         }
         return(
             <div>
                 <h1>File Creation</h1>
                 {buttons}
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                    <input type="text" className="form-control" ref="title" required=""/>
-                    <input type="textarea" className="form-control" ref="text" required=""/>
-                        <input type="file" ref="file"/>
-                    </div>
-                        <input className="" type="submit" value="Upload" />
-                </form>
+                {form}
                 {complete}
             </div>
         )

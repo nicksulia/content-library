@@ -1,14 +1,13 @@
 var React = require('react');
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
-//var SearchForm = require('./SearchForm.js');
-//var MovieResults = require('./MovieResults');
 var NavBar = require('./NavBar');
 var Gallery = require('./Gallery');
 var About = require('./About');
 var Content = require('./MainContent');
 var CreateFile = require('./CreateFile');
 var Contacts = require('./Contacts');
+var Footer = require('./Footer');
 
 function getAppState() {
     return {
@@ -55,6 +54,7 @@ var App = React.createClass({
             <div>
                 <NavBar/>
                 {page}
+                <Footer/>
             </div>
         )
     },

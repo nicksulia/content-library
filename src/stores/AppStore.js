@@ -15,12 +15,15 @@ var _complete = false;
 var _currentPage = 0;
 var paginationCursor = 1;
 var _paginatedData = [];
-var filterType = 'title';
+var _filterType = 'title';
 
 var AppStore = assign({},EventEmitter.prototype,{
+    setFilter:function (value) {
+        _filterType = value;
+    },
     filterContent:function (filterBy) {
         var data = _data.filter(function (el) {
-            if(el[filterType].toLowerCase().indexOf(filterBy.toLowerCase()) !== -1) {
+            if(el[_filterType].toLowerCase().indexOf(filterBy.toLowerCase()) !== -1) {
                 return el;
             }
         });
@@ -64,8 +67,6 @@ var AppStore = assign({},EventEmitter.prototype,{
                 }
             }
         } else _paginatedData = [[]];
-
-        console.log(_paginatedData);
     },
     setContentData:function (data) {
         if (_content === 'all') {
@@ -191,6 +192,10 @@ AppDispatcher.register(function (payload) {
             break;
         case AppConstants.FILTER_CONTENT:
             AppStore.filterContent(action.value);
+            AppStore.emitChange(CHANGE_EVENT);
+            break;
+        case AppConstants.SET_FILTER:
+            AppStore.setFilter(action.value);
             AppStore.emitChange(CHANGE_EVENT);
             break;
 }

@@ -16,21 +16,25 @@ var Map = React.createClass({
             center: EIFFEL_TOWER_POSITION,
             zoom: 16
         });
+        var marker = new google.maps.Marker({
+            position: EIFFEL_TOWER_POSITION,
+            map: this.map,
+            title: 'Hello World!'
+        });
     },
     panToArcDeTriomphe:function() {
-        console.log(this)
         this.map.panTo(ARC_DE_TRIOMPHE_POSITION);
     },
     render:function () {
-        const mapStyle = {
-            width: 500,
-            height: 300,
-            border: '1px solid black'
-        };
+        // const mapStyle = {
+        //     width: 500,
+        //     height: 300,
+        //     border: '1px solid black'
+        // };
         return (
             <div>
                 <button onClick={this.panToArcDeTriomphe}>Go to Arc De Triomphe</button>
-                <div ref="map" style={mapStyle}>I should be a map!</div>
+                <div ref="map" className="map">I should be a map!</div>
             </div>
         )
     }

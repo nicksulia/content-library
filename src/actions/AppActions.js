@@ -2,6 +2,12 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 
 var AppActions = {
+    setFilter:function (value) {
+        AppDispatcher.handleViewAction({
+            actionType:AppConstants.SET_FILTER,
+            value:value
+        });
+    },
     filterContent:function (value) {
         AppDispatcher.handleViewAction({
             actionType:AppConstants.FILTER_CONTENT,
