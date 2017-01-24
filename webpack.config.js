@@ -1,13 +1,29 @@
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    entry:[
+    entry:{
+        main:[
         'es5-shim',
-        './src/main.js'
-    ],
+        './client/src/main.js'
+        ]
+    },
     output: {
         path:__dirname,
-        filename: 'app/js/main.js'
+        filename: 'client/app/js/[name].js'
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel',
+            },
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract('css!sass')
+            }
+        ]
     },
     plugins: [
         new webpack.DefinePlugin({
@@ -18,15 +34,7 @@ module.exports = {
             compress: {
                 warnings: false
             }
-        })
+        }),
+        new ExtractTextPlugin('client/app/css/[name].css'),
     ],
-    module: {
-        loaders: [
-            {
-                test: /\.js?$/,
-                loader: 'babel',
-                exclude:/node_modules/
-            }
-        ]
-    }
 };

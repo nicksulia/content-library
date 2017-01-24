@@ -1,0 +1,35 @@
+@import "global-variables";
+img {
+  width: 100%;
+}
+.gallery {
+  margin:0 auto;
+  overflow: hidden;
+}
+.gallery ul li {
+  overflow: hidden;
+  list-style: none;
+  float:left;
+  font:10px/1.5 Verdana,Helvetica,Sans-serif;
+  width: 300px;
+  height: 300px;
+}
+
+.gallery ul li a {
+  color: #5d5f5d;
+}
+@media (max-width: 669px) {
+  .gallery {
+    width: 300px;
+  }
+}
+@media (min-width: 670px) {
+  .gallery {
+    width: 600px;
+  }
+}
+@media (min-width: 994px) {
+  .gallery {
+    width: 900px;
+  }
+}
