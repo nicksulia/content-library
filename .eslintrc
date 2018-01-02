@@ -45,7 +45,6 @@
     "no-debugger": 1
   },
   "globals": {
-    "AV": true,
     "Promise": true
   }
 }
