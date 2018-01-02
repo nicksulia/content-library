@@ -1,18 +1,43 @@
+const path = require('path');
+//const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 module.exports = {
-    entry:[
-        './src/main.js'
-    ],
+    entry: path.resolve(__dirname, './src/index.js'),
     output: {
-        path:__dirname,
-        filename: 'app/js/main.js'
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: "/assets/",
+        filename: 'bundle.js'
+    },
+    devtool: 'source-map',
+    devServer: {
+        port: 8090,
+        disableHostCheck: true
     },
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.js?$/,
-                loader: 'babel',
-                exclude:/node_modules/
+                enforce: 'pre',
+                test: /\.jsx?$/,
+                exclude: /(node_modules|idea|bower_components)/,
+                loaders: ['eslint-loader']
+            },
+            {
+                test: /\.jsx?$/,
+                exclude: /(node_modules|idea|bower_components)/,
+                use: 'babel-loader'
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.s(a|c)ss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
+            },
+            {
+                test: /\.svg$/,
+                use: 'svg-url-loader'
             }
         ]
-    }
+    },
 };

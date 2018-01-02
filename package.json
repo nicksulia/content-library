@@ -4,7 +4,7 @@
   "description": "React, mongo, node and friends",
   "main": "index.js",
   "scripts": {
-    "server": "webpack-dev-server --port 8090 --host 0.0.0.0"
+    "server": "babel-node ./server.js"
   },
   "author": "Nick",
   "license": "ISC",
