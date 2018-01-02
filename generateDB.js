@@ -1,12 +1,19 @@
 const fs = require('fs');
 const path = require('path');
+const { exec } = require('child_process');
+import config from './serverConfig.js';
+const { portDB, hostDB } =  config;
 const fileFormat = "utf8";
+
+fs.unlinkSync(path.resolve(__dirname, './dump/data.json'));
+fs.rmdirSync(path.resolve(__dirname, './dump'));
 fs.mkdirSync(path.resolve(__dirname, './dump'));
 
 const dataArray = [];
 const names = ['John', 'Robert', 'Liana', 'Edward', 'Ann', 'Richard', 'Amie', 'Michael', 'Lily', 'Ragnar', 'Ivar', 'Ubba', 'Loki', 'Thor', 'Odin'];
 const cities = ['New York', 'Kiev', 'Moscow', 'Berlin', 'London', 'Amsterdam', 'Vatican', 'Winterhold', 'Whiteran', 'Hummerfall'];
 const currencies = ['UAH', 'USD', 'RUB', 'EUR'];
+const languages = ['English', 'Ukrainian', 'German'];
 const randomString = (arr) => {
     return arr[Math.floor(Math.random()*arr.length)];
 };
@@ -32,7 +39,19 @@ for ( let i = 0; i < 100000; i++ ) {
         modified: randomDate(new Date(2015, 0, 1), new Date(2016, 5, 4)),
         city: randomString(cities),
         childName: randomString(names),
-        childAge: randomNum(20, true)
+        childAge: randomNum(20, true),
+        language: randomString(languages)
     }
 }
 fs.writeFileSync(path.resolve(__dirname, './dump/data.json'), JSON.stringify(dataArray), fileFormat);
+exec(`"${path.resolve(__dirname, './import.bat')}" ${hostDB} ${portDB}`, (err, stdout, stderr) => {
+    if (err) {
+        // node couldn't execute the command
+        return;
+    }
+
+    // the *entire* stdout and stderr (buffered)
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+
+});
