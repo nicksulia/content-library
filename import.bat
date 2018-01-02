@@ -1,0 +1,1 @@
+mongoimport --host %1 --port %2 --db testDB --collection data --type json --file dump\data.json --jsonArray --numInsertionWorkers 8
