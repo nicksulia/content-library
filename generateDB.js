@@ -4,9 +4,10 @@ const { exec } = require('child_process');
 import config from './serverConfig.js';
 const { portDB, hostDB } =  config;
 const fileFormat = "utf8";
-
-fs.unlinkSync(path.resolve(__dirname, './dump/data.json'));
-fs.rmdirSync(path.resolve(__dirname, './dump'));
+if (fs.existsSync(path.resolve(__dirname, './dump/data.json'))) {
+    fs.unlinkSync(path.resolve(__dirname, './dump/data.json'));
+    fs.rmdirSync(path.resolve(__dirname, './dump'));
+}
 fs.mkdirSync(path.resolve(__dirname, './dump'));
 
 const dataArray = [];
@@ -46,7 +47,7 @@ for ( let i = 0; i < 100000; i++ ) {
 fs.writeFileSync(path.resolve(__dirname, './dump/data.json'), JSON.stringify(dataArray), fileFormat);
 exec(`"${path.resolve(__dirname, './import.bat')}" ${hostDB} ${portDB}`, (err, stdout, stderr) => {
     if (err) {
-        // node couldn't execute the command
+        console.log('failed to access import.bat');
         return;
     }
 
