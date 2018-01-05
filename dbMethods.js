@@ -36,7 +36,7 @@ export const find = ({ searchBy = {}, sortBy = "", filter = {type: ""}, coursor 
                 switch (filter.type) {
                     case 'range-date':
                         db.collection(collection).find(
-                            Object.assign({
+                            Object.assign({},{
                                 modified: {
                                     $gte: filter.options.from ? new Date(filter.options.from) : new Date(2000, 1, 1),
                                     $lte: filter.options.to ? new Date(filter.options.to) : new Date(2040, 1, 1),
@@ -48,7 +48,7 @@ export const find = ({ searchBy = {}, sortBy = "", filter = {type: ""}, coursor 
                         break;
                     case 'range-number':
                         db.collection(collection).find(
-                            Object.assign({
+                            Object.assign({},{
                                 value: {
                                     $gte: filter.options.from ? filter.options.from : -Infinity,
                                     $lte: filter.options.to ? filter.options.to : Infinity,
