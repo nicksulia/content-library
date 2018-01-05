@@ -2,10 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
 import config from './serverConfig.js';
-const { portDB, hostDB } =  config;
+const { portDB, hostDB, databaseName, collectionName } =  config;
 const fileFormat = "utf8";
-if (fs.existsSync(path.resolve(__dirname, './dump/data.json'))) {
-    fs.unlinkSync(path.resolve(__dirname, './dump/data.json'));
+if (fs.existsSync(path.resolve(__dirname, `./dump/data.json`))) {
+    fs.unlinkSync(path.resolve(__dirname, `./dump/data.json`));
     fs.rmdirSync(path.resolve(__dirname, './dump'));
 }
 fs.mkdirSync(path.resolve(__dirname, './dump'));
@@ -44,8 +44,8 @@ for ( let i = 0; i < 100000; i++ ) {
         language: randomString(languages)
     }
 }
-fs.writeFileSync(path.resolve(__dirname, './dump/data.json'), JSON.stringify(dataArray), fileFormat);
-exec(`"${path.resolve(__dirname, './import.bat')}" ${hostDB} ${portDB}`, (err, stdout, stderr) => {
+fs.writeFileSync(path.resolve(__dirname, `./dump/data.json`), JSON.stringify(dataArray), fileFormat);
+exec(`"${path.resolve(__dirname, './import.bat')}" ${hostDB} ${portDB} ${databaseName} ${collectionName} `, (err, stdout, stderr) => {
     if (err) {
         console.log('failed to access import.bat');
         return;

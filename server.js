@@ -11,7 +11,7 @@ import User from './models/User.js';
 
 const port = config.port || 8080;
 
-mongoose.connect(config.database); // connect to database
+mongoose.connect(config.databaseUrl); // connect to database
 app.set('secret', config.secret); // secret variable
 
 // use body parser so we can get info from POST and/or URL parameters
