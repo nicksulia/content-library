@@ -6,9 +6,8 @@ import morgan from 'morgan';
 
 import jwt from 'jsonwebtoken'; // used to create, sign, and verify tokens
 import config from './serverConfig.js';// get our config file
-
 import User from './models/User.js';
-
+import { find } from './dbMethods.js';
 const port = config.port || 8080;
 
 mongoose.connect(config.databaseUrl); // connect to database
@@ -24,7 +23,7 @@ app.use(morgan('dev'));
 // =================================================================
 // routes ==========================================================
 // =================================================================
-app.get('/register', function(req, res) {
+app.get('/register', (req, res) => {
 
     // create a sample user
     const nick = new User({
@@ -32,16 +31,32 @@ app.get('/register', function(req, res) {
         password: 'P@ssw0rd',
         admin: true
     });
-    nick.save(function(err) {
+    nick.save((err) => {
         if (err) throw err;
 
         console.log('User saved successfully');
-        res.json({ success: true });
+        res.json({ success: true, name: 'Nick', password: 'P@ssw0rd' });
     });
 });
 
-app.get('/', function(req, res) {
-    res.send(`Hello! The API is at http://localhost:${port}/api`);
+app.get('/', (req, res) => {
+    find().then(({result, client}) => {
+        client.close();
+        res.send(result)
+    }, ({err, client}) => {
+        client.close();
+        res.status(500).send(err);
+    });
+});
+
+app.post('/', (req, res) => {
+    find(req.body).then(({result, client}) => {
+        client.close();
+        res.send(result)
+    }, ({err, client}) => {
+        client.close();
+        res.status(500).send(err);
+    });
 });
 
 // ---------------------------------------------------------
@@ -53,15 +68,13 @@ const apiRoutes = express.Router();
 // authentication (no middleware necessary since this isn`t authenticated)
 // ---------------------------------------------------------
 // http://localhost:8080/api/authenticate
-apiRoutes.post('/authenticate', function(req, res) {
+apiRoutes.post('/authenticate', (req, res) => {
 
     // find the user
     User.findOne({
         name: req.body.name
     }, function(err, user) {
-
         if (err) throw err;
-
         if (!user) {
             res.json({ success: false, message: 'Authentication failed. User not found.' });
         } else if (user) {
@@ -95,8 +108,8 @@ apiRoutes.post('/authenticate', function(req, res) {
 // ---------------------------------------------------------
 // route middleware to authenticate and check token
 // ---------------------------------------------------------
-apiRoutes.use(function(req, res, next) {
-    // check header or url parameters or post parameters for token
+apiRoutes.use((req, res, next) => {
+    // check header or post parameters for token
     const token = req.body.token || req.headers.authorization.split(" ")[1];
 
     // decode token
@@ -128,21 +141,21 @@ apiRoutes.use(function(req, res, next) {
 // ---------------------------------------------------------
 // authenticated routes
 // ---------------------------------------------------------
-apiRoutes.get('/', function(req, res) {
+apiRoutes.get('/', (req, res) => {
     res.json({ message: 'Welcome!' });
 });
 
-apiRoutes.post('/', function(req, res) {
+apiRoutes.post('/', (req, res) => {
     res.json({ message: 'Welcome!' });
 });
 
-apiRoutes.get('/users', function(req, res) {
-    User.find({}, function(err, users) {
+apiRoutes.get('/users', (req, res) => {
+    User.find({}, (err, users) => {
         res.json(users);
     });
 });
 
-apiRoutes.get('/check', function(req, res) {
+apiRoutes.get('/check', (req, res) => {
     res.json(req.decoded);
 });
 
