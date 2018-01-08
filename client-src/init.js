@@ -1,4 +1,5 @@
 import store from './store';
+import ReactDOM from 'react-dom';
 import AppPane from './AppPane.js';
 
 class AppView {
@@ -10,8 +11,9 @@ class AppView {
 
     onInit(config) {
         this.createElement().then(el => { document.body.appendChild(el) } );
-        this.state = config.state;
-
+        if (config) {
+            this.state = config.state;
+        }
         this.pane = new AppPane();
     }
 
