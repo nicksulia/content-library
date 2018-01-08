@@ -46,13 +46,14 @@ export const find = ({ searchBy = {}, sortBy = "", filter = {type: ""}, coursor 
                             )
                             .toArray(collectionCallback);
                         break;
-                    case 'range-number':
+                    case 'range-currency':
                         db.collection(collection).find(
                             Object.assign({},{
                                 value: {
                                     $gte: filter.options.from ? filter.options.from : -Infinity,
                                     $lte: filter.options.to ? filter.options.to : Infinity,
-                                }
+                                },
+                                currency: filter.options.currency ? filter.options.currency : 'USD'
                             },searchBy),
                             options
                         )
