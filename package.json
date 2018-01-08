@@ -4,7 +4,10 @@
   "description": "React, mongo, node and friends",
   "main": "index.js",
   "scripts": {
+    "build": "set NODE_ENV=production && webpack --display-error-details",
     "server": "babel-node ./server.js",
+    "server:client": "webpack-dev-server --content-base dist/",
+    "watch": "webpack --config webpack.config.js --display-modules --watch --progress",
     "generate-data": "babel-node ./generateDB.js"
   },
   "author": "Nick",
@@ -50,7 +53,8 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.13.1",
     "svg-url-loader": "^1.1.1",
-    "webpack": "^3.6.0"
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.7"
   },
   "dependencies": {
     "react-infinite-scroller": "^1.1.2",
@@ -59,6 +63,7 @@
     "react-dom": "^15.4.1",
     "prop-types": "^15.6.0",
     "redux": "^3.6.0",
+    "react-redux": "^5.0.1",
     "redux-actions": "^2.2.1",
     "redux-promise-middleware": "^4.4.2",
     "redux-thunk": "^2.2.0"
