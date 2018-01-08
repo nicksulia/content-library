@@ -20,7 +20,7 @@ export const find = ({ searchBy = {}, sortBy = "", filter = {type: ""}, coursor 
             //limitations and sort options as variable to prevent code duplication
             const options =
                 {
-                    limit: 10*coursor,
+                    limit: 10*(coursor || 1),
                     sort: sortBy ? {[sortBy]:1} : {_id:1}
                 };
 
