@@ -1,16 +1,5 @@
 import types from './actionsConstants.js';
 
-Object.freeze({
-    SET_CURSOR: 'SET_CURSOR',
-    GET_DATA_CALL: 'GET_DATA_CALL',
-    SET_DISPLAYED_DATA: 'SET_DISPLAYED_DATA',
-    SET_FILTERING_TYPE: 'SET_FILTERING_TYPE',
-    SET_FILTERING_OPTIONS: 'SET_FILTERING_OPTIONS',
-    SET_SORTING_TYPE: 'SET_SORTING_TYPE',
-    SET_SEARCHING_TYPE: 'SET_SEARCHING_TYPE',
-    SET_SEARCHING_VALUE: 'SET_SEARCHING_VALUE'
-});
-
 export const setCursor = (cursor) => ({
     type: types.SET_CURSOR,
     cursor: cursor
