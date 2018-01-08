@@ -5,9 +5,9 @@ export const setCursor = (cursor) => ({
     cursor: cursor
 });
 
-export const getData = () => dispatch => dispatch({
+export const getData = (dataLength) => dispatch => dispatch({
     type: types.GET_DATA_CALL,
-    data: Promise.resolve('data')
+    data: Promise.resolve([]).then(() => { dispatch(setDisplayedData(dataLength)) })
 });
 
 export const setSearchingValue = (searchingValue) => ({
