@@ -1,14 +1,26 @@
 import types from './actionsConstants.js';
+import { getDataApi } from '../api/configAPI.js';
 
 export const setCursor = (cursor) => ({
     type: types.SET_CURSOR,
     cursor: cursor
 });
 
-export const getData = (dataLength) => dispatch => dispatch({
-    type: types.GET_DATA_CALL,
-    data: Promise.resolve([]).then(() => { dispatch(setDisplayedData(dataLength)) })
+export const getData = (body, length = 50) => dispatch => {
+    dispatch({
+        type: types.GET_DATA_CALL,
+        data: getDataApi(body).then(data => {
+            dispatch(setData(data));
+            dispatch(setDisplayedData(length));
+        })
+    })
+};
+
+export const setData = (data) => ({
+    type: types.SET_DATA,
+    data
 });
+
 
 export const setSearchingValue = (searchingValue) => ({
     type: types.SET_SEARCHING_VALUE,
