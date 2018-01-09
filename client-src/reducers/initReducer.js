@@ -11,28 +11,18 @@ export default handleActions({
         cursor
     }),
 
-
-    [`${ACTIONS.GET_DATA_CALL}_FULFILLED`]: (state, { data }) => ({
+    [ACTIONS.SET_DATA]: (state, { data }) => ({
         ...state,
         data
     }),
-
-    // [`${ACTIONS.GET_DATA_CALL}_REJECTED`]: (state, { licenseTypeInit }) => ({
-    //     ...state,
-    //     licenseTypeInit
-    // }),
-
-    // [`${ACTIONS.GET_DATA_CALL}_PENDING`]: (state, { licenseTypeInit }) => ({
-    //     ...state,
-    //     licenseTypeInit
-    // }),
-
 
 
     [ACTIONS.SET_DISPLAYED_DATA]: (state, { dataLength }) => {
         const displayedData = [];
         for (let i = 0; i < dataLength; i++) {
-            displayedData[i] = state.data[i];
+            if(state.data[i]) {
+                displayedData[i] = state.data[i];
+            }
         }
         return {
             ...state,
@@ -51,10 +41,12 @@ export default handleActions({
         filteringOptions
     }),
 
-    [ACTIONS.SET_SORTING_TYPE]: (state, { sortingType }) => ({
-        ...state,
-        sortingType
-    }),
+    [ACTIONS.SET_SORTING_TYPE]: (state, { sortingType }) => {
+        return {
+            ...state,
+            sortingType
+        };
+    },
 
     [ACTIONS.SET_SEARCHING_TYPE]: (state, { searchingType }) => ({
         ...state,
