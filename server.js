@@ -3,6 +3,7 @@ const app = express();
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import path from 'path';
 
 import jwt from 'jsonwebtoken'; // used to create, sign, and verify tokens
 import config from './serverConfig.js';// get our config file
@@ -40,22 +41,24 @@ app.get('/register', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    find().then(({result, client}) => {
-        client.close();
-        res.send(result)
-    }, ({err, client}) => {
-        client.close();
-        res.status(500).send(err);
-    });
+    res.sendFile(path.resolve(__dirname, './dist/index.html'));
 });
 
-app.post('/', (req, res) => {
+app.get('/style.css', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './dist/style.css'));
+});
+
+app.get('/assets/bundle.js', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './dist/bundle.js'));
+});
+
+app.post('/apis', (req, res) => {
     find(req.body).then(({result, client}) => {
         client.close();
         res.send(result)
     }, ({err, client}) => {
         client.close();
-        res.status(500).send(err);
+        res.status(503).send(err);
     });
 });
 
