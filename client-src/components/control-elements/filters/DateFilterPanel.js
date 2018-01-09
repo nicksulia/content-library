@@ -53,27 +53,31 @@ class DateFilterPanel extends PureComponent {
         } = this.props;
 
         return (
-            <div>
-                <label>From:</label><br/>
-                <label>Year:</label><input type="number" min="2000" max="2020" value={from.year} step="1" onChange={
+            <div styleName="date-panel">
+                <label>From:</label>
+                <div styleName="date-block">
+                    <label>Year:</label><input type="number" min="2000" max="2020" value={from.year} step="1" onChange={
                     (e) => { this.setValue('from','year', e.target) }
-                }/><br/>
-                <label>Month:</label><input type="number" min={1} max={12} value={from.month}  step="1" onChange={
-                (e) => { this.setValue('from','month', e.target) }
-            }/><br/>
-                <label>Day:</label><input type="number" min="1" max="30" value={from.day}  step="1" onChange={
-                (e) => { this.setValue('from','day', e.target) }
-            }/><br/>
-                <label>To:</label><br/>
-                <label>Year:</label><input type="number" min="2000" max="2020" value={to.year}  step="1" onChange={
-                (e) => { this.setValue('to','year', e.target) }
-            }/><br/>
-                <label>Month:</label><input type="number" min="1" max="12" value={to.month}  step="1" onChange={
-                (e) => { this.setValue('to','month', e.target) }
-            }/><br/>
-                <label>Day:</label><input type="number" min="1" max="30" value={to.day}  step="1" onChange={
-                (e) => { this.setValue('to','day', e.target) }
-            }/><br/>
+                }/>
+                    <label>Month:</label><input type="number" min={1} max={12} value={from.month}  step="1" onChange={
+                    (e) => { this.setValue('from','month', e.target) }
+                }/>
+                    <label>Day:</label><input type="number" min="1" max="30" value={from.day}  step="1" onChange={
+                    (e) => { this.setValue('from','day', e.target) }
+                }/>
+                </div>
+                <label>To:</label>
+                <div styleName="date-block">
+                    <label>Year:</label><input type="number" min="2000" max="2020" value={to.year}  step="1" onChange={
+                    (e) => { this.setValue('to','year', e.target) }
+                }/>
+                    <label>Month:</label><input type="number" min="1" max="12" value={to.month}  step="1" onChange={
+                    (e) => { this.setValue('to','month', e.target) }
+                }/>
+                    <label>Day:</label><input type="number" min="1" max="30" value={to.day}  step="1" onChange={
+                    (e) => { this.setValue('to','day', e.target) }
+                }/>
+                </div>
                 <button onClick={
                     () => { submitDate({from: new Date(from.year, from.month, from.day), to: new Date(to.year, to.month, to.day)} ) }
                 }>Submit</button>

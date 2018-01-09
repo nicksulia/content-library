@@ -47,10 +47,10 @@ class CurrencyFilterPanel extends PureComponent {
             submitCurrency
         } = this.props;
         return (
-            <div>
-                <label>From:</label><input type="number" min="0" max="100000" onChange={(e) => this.setValue('from',e.target)} value={from}/><br/>
-                <label>To:</label><input type="number" min="0" max="100000" onChange={(e) => this.setValue('to',e.target)} value={to}/><br/>
-                <select onChange={(e) => { this.setCurrency(e.target.value) } } value={currency}>
+            <div styleName="currency-panel">
+                <label>From: </label><input type="number" min="0" max="100000" onChange={(e) => this.setValue('from',e.target)} value={from}/>
+                <label>To: </label><input type="number" min="0" max="100000" onChange={(e) => this.setValue('to',e.target)} value={to}/>
+                <label>Currency: </label><select onChange={(e) => { this.setCurrency(e.target.value) } } value={currency}>
                     {
                         currencies.map(option => (
                                 <option
