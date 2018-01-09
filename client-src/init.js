@@ -1,4 +1,5 @@
 import store from './store';
+import { getData } from './actions/initActions.js';
 import ReactDOM from 'react-dom';
 import AppPane from './AppPane.js';
 
@@ -18,6 +19,7 @@ class AppView {
     }
 
     onRender() {
+        store.dispatch(getData({}));
         this.pane.render(this.el, store);
     }
 
