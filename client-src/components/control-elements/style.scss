@@ -1,6 +1,21 @@
 .control-panel {
   display: flex;
+  flex: 1;
   -webkit-flex-direction: column;
   flex-direction: column;
   width: 100%;
+}
+
+.dropdowns {
+  display: flex;
+  flex: 1;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  select {
+    min-height: 22px;
+  }
 }
