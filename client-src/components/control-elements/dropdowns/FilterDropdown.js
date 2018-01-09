@@ -35,17 +35,20 @@ class FilterDropdown extends PureComponent {
             selected
         } = this.state;
         return (
-            <select onChange={(e) => {this.selectFilteringType(e)}} value={selected}>
-                {
-                    filterTypes.map(option => (
-                            <option
-                                key={option.type + option.label}
-                                value={option.type}
-                            >{option.label}</option>
+            <div>
+                <label>Filter by: </label>
+                <select onChange={(e) => {this.selectFilteringType(e)}} value={selected}>
+                    {
+                        filterTypes.map(option => (
+                                <option
+                                    key={option.type + option.label}
+                                    value={option.type}
+                                >{option.label}</option>
+                            )
                         )
-                    )
-                }
-            </select>
+                    }
+                </select>
+            </div>
         )
     }
 

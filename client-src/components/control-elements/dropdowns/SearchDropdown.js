@@ -38,17 +38,20 @@ class SearchDropdown extends PureComponent {
             selected
         } = this.state;
         return (
-            <select onChange={(e) => {this.selectSearchingType(e)}} value={selected}>
-                {
-                    searchTypes.map(option => (
-                            <option
-                                key={option.type + option.label}
-                                value={option.type}
-                            >{option.label}</option>
+            <div>
+                <label>Search by: </label>
+                <select onChange={(e) => {this.selectSearchingType(e)}} value={selected}>
+                    {
+                        searchTypes.map(option => (
+                                <option
+                                    key={option.type + option.label}
+                                    value={option.type}
+                                >{option.label}</option>
+                            )
                         )
-                    )
-                }
-            </select>
+                    }
+                </select>
+            </div>
         )
     }
 

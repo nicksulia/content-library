@@ -8,6 +8,7 @@ const sortTypes = [
     {type: '', label: 'None'},
     {type: 'name', label: 'Name'},
     {type: 'modified', label: 'Date'},
+    {type: 'age', label: 'Age'},
     {type: 'value', label: 'Currency'},
     {type: 'language', label: 'Language'}
 ];
@@ -38,17 +39,20 @@ class SortDropdown extends PureComponent {
             selected
         } = this.state;
         return (
-            <select onChange={(e) => {this.selectSortingType(e)}} value={selected}>
-                {
-                    sortTypes.map(option => (
-                            <option
-                                key={option.type + option.label}
-                                value={option.type}
-                            >{option.label}</option>
+            <div>
+                <label>Sort by: </label>
+                <select onChange={(e) => {this.selectSortingType(e)}} value={selected}>
+                    {
+                        sortTypes.map(option => (
+                                <option
+                                    key={option.type + option.label}
+                                    value={option.type}
+                                >{option.label}</option>
+                            )
                         )
-                    )
-                }
-            </select>
+                    }
+                </select>
+            </div>
         )
     }
 
