@@ -15,7 +15,9 @@ class ControlPanel extends PureComponent {
         setFilteringType: PropTypes.func.isRequired,
         setSortingType: PropTypes.func.isRequired,
         setSearchingType: PropTypes.func.isRequired,
+        setSearchingValue: PropTypes.func.isRequired,
         setFilteringOptions: PropTypes.func.isRequired,
+        getData: PropTypes.func.isRequired,
         sortingType: PropTypes.string.isRequired,
         filteringType: PropTypes.string.isRequired,
         searchingType: PropTypes.string.isRequired,
@@ -27,19 +29,85 @@ class ControlPanel extends PureComponent {
     constructor(props) {
         super(props);
 
+    this.getNewData = this.getNewData.bind(this);
     }
 
+    componentDidUpdate(prevProps) {
+        if(prevProps.sortingType !== this.props.sortingType) {
+            this.getNewData();
+        }
+        if(prevProps.filteringOptions.from !== this.props.filteringOptions.from ||
+            prevProps.filteringOptions.to !== this.props.filteringOptions.to ||
+            prevProps.filteringOptions.currency !== this.props.filteringOptions.currency) {
+            this.getNewData();
+        }
+        if(prevProps.filteringType !== "" && this.props.filteringType === "") {
+            this.getNewData();
+        }
+    }
+
+    getNewData(){
+        const {
+            cursor,
+            filteringOptions,
+            searchingType,
+            searchingValue,
+            filteringType,
+            sortingType,
+            getData
+        } = this.props;
+        let sortBy = '',
+            searchBy = {},
+            filter = {type: ''};
+        if (sortingType) {
+            sortBy = sortingType;
+        }
+        if (filteringType) {
+            filter.type = filteringType;
+            filter.options = filteringOptions;
+        }
+        if (searchingType) {
+            searchBy[searchingType] = searchingValue;
+        }
+        getData({ sortBy, filter, searchBy, cursor });
+    }
     render() {
+        const {
+            setFilteringType,
+            setFilteringOptions,
+            setSortingType,
+            setSearchingType,
+            setSearchingValue,
+            searchingValue,
+            filteringType,
+            searchingType
+        } = this.props;
+        let filterPanel = null;
+        if (filteringType === 'range-date') {
+            filterPanel = (<DateFilterPanel submitDate={(value) => {
+                setFilteringOptions(value);
+            }}/>);
+        } else if (filteringType === 'range-currency') {
+            filterPanel = (<CurrencyFilterPanel submitCurrency={(value) => {
+                setFilteringOptions(value);
+            }}/>);
+        }
         return (
             <div styleName = "control-panel">
-                <div>
-                    <SearchPanel submitSearchingType={(value) => { console.log(value) } }/>
-                    <FilterDropdown submitFilteringType={(value) => {console.log(value)}}/>
-                    <SortDropdown submitSortingType={(value) => {console.log(value)}}/>
+                <div styleName = "dropdowns">
+                    <SearchPanel submitSearchingType={(value) => {
+                        setSearchingType(value);
+                    } }
+                                 searchingType = {searchingType}
+                                 value = {searchingValue}
+                                 setValue = {(value) => { setSearchingValue(value) } }
+                                 submitSearch={() => { this.getNewData(); }}
+                    />
+                    <FilterDropdown submitFilteringType={(value) => {setFilteringType(value)}}/>
+                    <SortDropdown submitSortingType={(value) => {setSortingType(value)}}/>
                 </div>
                 <div>
-                    <CurrencyFilterPanel submitCurrency={(value) => {console.log(value)}}/>
-                    <DateFilterPanel submitDate={(value) => {console.log(value)}}/>
+                    {filterPanel}
                 </div>
             </div>
         )

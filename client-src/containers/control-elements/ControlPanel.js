@@ -12,8 +12,6 @@ import {
     getData
 } from '../../actions/initActions.js';
 
-
-
 const actionCreators = {
     setCursor,
     setFilteringOptions,
