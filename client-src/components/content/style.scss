@@ -1,0 +1,11 @@
+.content-panel {
+  width: 100%;
+}
+.person-block {
+  display: flex;
+  flex: 1;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  align-items: center;
+}
