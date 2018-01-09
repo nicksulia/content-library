@@ -8,19 +8,29 @@ import SearchDropdown from '../dropdowns/SearchDropdown.js'
 
 class SearchPanel extends PureComponent {
     static propTypes = {
-        submitSearchingType: PropTypes.func.isRequired
+        submitSearchingType: PropTypes.func.isRequired,
+        submitSearch: PropTypes.func.isRequired,
+        value: PropTypes.string,
+        setValue: PropTypes.func.isRequired,
+        searchingType:PropTypes.string
     };
     constructor(props) {
         super(props);
 
     }
     render() {
+        const {
+            value,
+            submitSearchingType,
+            setValue,
+            submitSearch,
+            searchingType
+        } = this.props;
         return (
-            <div>
-                <input type="text"/>
-                <button>Submit</button>
-                <span>SearchBy</span>
-                <SearchDropdown submitSearchingType={this.props.submitSearchingType}/>
+            <div styleName="search-panel">
+                <SearchDropdown submitSearchingType={submitSearchingType}/>
+                <input disabled={!searchingType} type="text" onChange={(e) => {setValue(e.target.value)}} value={value}/>
+                <button onClick={submitSearch}>Submit</button>
             </div>
         );
     }
