@@ -13,6 +13,7 @@ import SortDropdown from './dropdowns/SortDropdown.js';
 class ControlPanel extends PureComponent {
     static propTypes = {
         setFilteringType: PropTypes.func.isRequired,
+        setCursor: PropTypes.func.isRequired,
         setSortingType: PropTypes.func.isRequired,
         setSearchingType: PropTypes.func.isRequired,
         setSearchingValue: PropTypes.func.isRequired,
@@ -34,14 +35,17 @@ class ControlPanel extends PureComponent {
 
     componentDidUpdate(prevProps) {
         if(prevProps.sortingType !== this.props.sortingType) {
+            this.props.setCursor(1);
             this.getNewData();
         }
         if(prevProps.filteringOptions.from !== this.props.filteringOptions.from ||
             prevProps.filteringOptions.to !== this.props.filteringOptions.to ||
             prevProps.filteringOptions.currency !== this.props.filteringOptions.currency) {
+            this.props.setCursor(1);
             this.getNewData();
         }
-        if(prevProps.filteringType !== "" && this.props.filteringType === "") {
+        if(prevProps.filteringType !== '' && this.props.filteringType === '') {
+            this.props.setCursor(1);
             this.getNewData();
         }
     }
@@ -80,7 +84,9 @@ class ControlPanel extends PureComponent {
             setSearchingValue,
             searchingValue,
             filteringType,
-            searchingType
+            searchingType,
+            setCursor
+
         } = this.props;
         let filterPanel = null;
         if (filteringType === 'range-date') {
@@ -101,10 +107,15 @@ class ControlPanel extends PureComponent {
                                  searchingType = {searchingType}
                                  value = {searchingValue}
                                  setValue = {(value) => { setSearchingValue(value) } }
-                                 submitSearch={() => { this.getNewData(); }}
+                                 submitSearch={() => {
+                                     setCursor(1); //Search control uses call to new data directly so we need to set cursor inside event handler
+                                     this.getNewData();
+                                 }}
                     />
                     <FilterDropdown submitFilteringType={(value) => {setFilteringType(value)}}/>
-                    <SortDropdown submitSortingType={(value) => {setSortingType(value)}}/>
+                    <SortDropdown submitSortingType={(value) => {
+                        setSortingType(value);
+                    }}/>
                 </div>
                 <div>
                     {filterPanel}
