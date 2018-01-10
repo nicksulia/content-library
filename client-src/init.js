@@ -1,7 +1,9 @@
 import store from './store';
 import { getData } from './actions/initActions.js';
+import { setToken, setUsername, setAuthStatus } from './actions/authActions.js'
 import ReactDOM from 'react-dom';
 import AppPane from './AppPane.js';
+import { checkAccess } from './api/configAPI.js';
 
 class AppView {
     createElement() {
@@ -11,6 +13,17 @@ class AppView {
     }
 
     onInit(config) {
+        if(sessionStorage.token) {
+            checkAccess().then(() => {
+                store.dispatch(setToken(sessionStorage.token));
+                store.dispatch(setUsername(sessionStorage.username));
+                store.dispatch(setAuthStatus(true));
+                store.dispatch(getData({}));
+            },() => {
+                sessionStorage.token = '';
+                sessionStorage.username = '';
+            });
+        }
         this.createElement().then(el => { document.body.appendChild(el) } );
         if (config) {
             this.state = config.state;
@@ -19,7 +32,6 @@ class AppView {
     }
 
     onRender() {
-        store.dispatch(getData({}));
         this.pane.render(this.el, store);
     }
 
