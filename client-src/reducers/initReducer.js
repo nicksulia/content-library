@@ -11,11 +11,18 @@ export default handleActions({
         cursor
     }),
 
-    [ACTIONS.SET_DATA]: (state, { data }) => ({
-        ...state,
-        data
-    }),
-
+    [ACTIONS.SET_DATA]: (state, { data }) => {
+        let newData = [];
+        if (state.cursor === 1) {
+            newData = data;
+        } else if (state.cursor > 1) {
+            newData = state.data.concat(data);
+        }
+        return {
+            ...state,
+            data: newData
+        };
+    },
 
     [ACTIONS.SET_DISPLAYED_DATA]: (state, { dataLength }) => {
         const displayedData = [];
