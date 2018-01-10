@@ -24,6 +24,11 @@ app.use(morgan('dev'));
 // =================================================================
 // routes ==========================================================
 // =================================================================
+
+/**
+ * register call
+ * responses with {success: [bool], name: [string], password [string] }
+ */
 app.get('/register', (req, res) => {
 
     // create a sample user
@@ -39,7 +44,7 @@ app.get('/register', (req, res) => {
         res.json({ success: true, name: 'Nick', password: 'P@ssw0rd' });
     });
 });
-
+//static files
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, './dist/index.html'));
 });
@@ -51,7 +56,9 @@ app.get('/style.css', (req, res) => {
 app.get('/assets/bundle.js', (req, res) => {
     res.sendFile(path.resolve(__dirname, './dist/bundle.js'));
 });
+//-------------
 
+//unsecured api for test purposes
 app.post('/apis', (req, res) => {
     find(req.body).then(({result, client}) => {
         client.close();
@@ -70,21 +77,19 @@ const apiRoutes = express.Router();
 // ---------------------------------------------------------
 // authentication (no middleware necessary since this isn`t authenticated)
 // ---------------------------------------------------------
-// http://localhost:8080/api/authenticate
 apiRoutes.post('/authenticate', (req, res) => {
-
     // find the user
     User.findOne({
         name: req.body.name
     }, function(err, user) {
         if (err) throw err;
         if (!user) {
-            res.json({ success: false, message: 'Authentication failed. User not found.' });
+            res.status(400).send({ success: false, code: 'user.not.found', message: 'Authentication failed. User not found.' });
         } else if (user) {
 
             // check if password matches
             if (user.password != req.body.password) {
-                res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+                res.status(400).send({ success: false, code: 'wrong.password', message: 'Authentication failed. Wrong password.' });
             } else {
 
                 // if user is found and password is right
@@ -93,7 +98,7 @@ apiRoutes.post('/authenticate', (req, res) => {
                     admin: user.admin
                 };
                 const token = jwt.sign(payload, app.get('secret'), {
-                    expiresIn: 86400 // expires in 24 hours
+                    expiresIn: 600 // expires in 10 minutes
                 });
 
                 res.json({
@@ -113,7 +118,7 @@ apiRoutes.post('/authenticate', (req, res) => {
 // ---------------------------------------------------------
 apiRoutes.use((req, res, next) => {
     // check header or post parameters for token
-    const token = req.body.token || req.headers.authorization.split(" ")[1];
+    const token = req.body.token || ( req.headers.authorization ? req.headers.authorization.split(" ")[1] : undefined ); //to handle error with split
 
     // decode token
     if (token) {
@@ -121,7 +126,15 @@ apiRoutes.use((req, res, next) => {
         // verifies secret and checks exp
         jwt.verify(token, app.get('secret'), function(err, decoded) {
             if (err) {
-                return res.json({ success: false, message: 'Failed to authenticate token.' });
+                if (err.name === 'TokenExpiredError') {
+                    return res.status(400).send({
+                        success: false,
+                        code: 'token.expired',
+                        message: `Token expired at ${new Date(err.expiredAt)}`
+                    });
+                }
+                // because of some magic authorization failed
+                return res.status(400).send({ success: false, code: 'auth.failed' , message: 'Failed to authenticate token.' });
             } else {
                 // if everything is good, save to request for use in other routes
                 req.decoded = decoded;
@@ -132,9 +145,10 @@ apiRoutes.use((req, res, next) => {
     } else {
         // if there is no token
         // return an error
-        return res.status(403).send({
+        return res.status(400).send({
             success: false,
-            message: 'No token provided.'
+            code:'no.token',
+            message: 'No token provided'
         });
 
     }
@@ -144,22 +158,28 @@ apiRoutes.use((req, res, next) => {
 // ---------------------------------------------------------
 // authenticated routes
 // ---------------------------------------------------------
-apiRoutes.get('/', (req, res) => {
-    res.json({ message: 'Welcome!' });
-});
 
-apiRoutes.post('/', (req, res) => {
-    res.json({ message: 'Welcome!' });
-});
-
+//secured users API
 apiRoutes.get('/users', (req, res) => {
     User.find({}, (err, users) => {
         res.json(users);
     });
 });
 
+//secured check (is token expired) API
 apiRoutes.get('/check', (req, res) => {
-    res.json(req.decoded);
+    res.json({success: true});
+});
+
+//secured get data call API
+apiRoutes.post('/findData', (req, res) => {
+    find(req.body).then(({result, client}) => {
+        client.close();
+        res.send(result)
+    }, ({err, client}) => {
+        client.close();
+        res.status(503).send(err);
+    });
 });
 
 app.use('/api', apiRoutes);
