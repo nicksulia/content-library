@@ -21,7 +21,8 @@ class ContentPanel extends PureComponent {
         searchingValue: PropTypes.string.isRequired,
         filteringOptions: PropTypes.object.isRequired,
         cursor: PropTypes.number.isRequired,
-        getData: PropTypes.func.isRequired
+        getData: PropTypes.func.isRequired,
+        isAuth: PropTypes.bool.isRequired
     };
 
     constructor(props) {
@@ -30,10 +31,14 @@ class ContentPanel extends PureComponent {
         this.getNewData = this.getNewData.bind(this);
         this.loadItems = this.loadItems.bind(this);
         this.renderItems = this.renderItems.bind(this);
+        this.renderContent = this.renderContent.bind(this);
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.cursor !== this.props.cursor) {
+        if (prevProps.cursor !== this.props.cursor && this.props.cursor !== 1) { //this.props.cursor !== 1 needed to correctly reset cursor after control options
+            this.getNewData();
+        }
+        if(prevProps.isAuth !== this.props.isAuth) {
             this.getNewData();
         }
     }
@@ -49,9 +54,9 @@ class ContentPanel extends PureComponent {
             getData,
             displayedData
         } = this.props;
-        let sortBy = "",
+        let sortBy = '',
             searchBy = {},
-            filter = {type: ""};
+            filter = {type: ''};
         if (sortingType) {
             sortBy = sortingType;
         }
@@ -76,8 +81,8 @@ class ContentPanel extends PureComponent {
         if (dataLength && dataLength > displayedData.length + 50) {
             setDisplayedData(displayedData.length + 50)
         } else if (dataLength && !(dataLength % 1000) && dataLength <= displayedData.length + 50) {
-            setCursor(cursor + 1);
             setDisplayedData(0);
+            setCursor(cursor + 1);
         }
     }
     renderItems(){
@@ -87,7 +92,7 @@ class ContentPanel extends PureComponent {
         return displayedData.map(person => (<PersonBlock key = {person._id} person = {person} />));
     }
 
-    render() {
+    renderContent() {
         const loader = (<div>Loading...</div>);
         const {
             displayedData
@@ -97,7 +102,6 @@ class ContentPanel extends PureComponent {
             hasMore = !(displayedData.length%50);
         }
         return (
-            <div styleName="content-panel">
                 <InfiniteScroll
                     pageStart={0}
                     loadMore={this.loadItems}
@@ -105,6 +109,17 @@ class ContentPanel extends PureComponent {
                     loader={loader}>
                     {this.renderItems()}
                 </InfiniteScroll>
+        );
+    }
+
+    render() {
+        const {
+            isAuth
+        } = this.props;
+        return (
+            <div styleName="content-panel">
+            {isAuth ? (this.renderContent()) :
+                (<div styleName="error-panel">You are not authorized. Please Register and Authenticate first</div>)}
             </div>
         );
     }

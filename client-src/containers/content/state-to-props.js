@@ -7,6 +7,7 @@ export default (state) => {
     const cursor = state.initReducer.cursor || 1;
     const displayedData = state.initReducer.displayedData || [];
     const dataLength = state.initReducer.data.length || 0;
+    const isAuth = state.authReducer.isAuth || false;
     return {
         sortingType,
         filteringType,
@@ -15,6 +16,7 @@ export default (state) => {
         filteringOptions,
         cursor,
         displayedData,
-        dataLength
+        dataLength,
+        isAuth
     };
 };
