@@ -4,8 +4,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin;
 const CompressionPlugin = require("compression-webpack-plugin");
 
-const isProduction = process.env.NODE_ENV.trim() === "production";
-console.log(isProduction);
+const isProduction = process.env.NODE_ENV ? process.env.NODE_ENV.trim() === "production" : false; //if production not setted
 
 let plugins;
 if (isProduction) {
