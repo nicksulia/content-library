@@ -7,6 +7,7 @@ import styles from './style.scss';
 //Components
 import ControlPanel from '../../containers/control-elements/ControlPanel.js';
 import ContentPanel from '../../containers/content/ContentPanel.js';
+import AuthPanel from '../../containers/auth-panel/AuthPanel.js';
 
 class MainPanel extends PureComponent {
     constructor(props) {
@@ -16,6 +17,7 @@ class MainPanel extends PureComponent {
     render() {
         return (
             <div styleName="main-panel">
+                <AuthPanel/>
                 <ControlPanel/>
                 <ContentPanel/>
             </div>
