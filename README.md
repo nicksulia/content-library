@@ -104,7 +104,7 @@ npm run build
   ```
   
  ## Possible issues
- 
+ - After API call to load more data scroller position jumps at the begining of data (data still downloads and displays after scrolling to it)
  - Sometimes mongod instance freeze. You need to switch on it's console and run signal *ex. pressing Enter*
  - if Data have already been imported, you can't overwrite it. 
  Add in import.bat flag `--upsert` if you want to (Not recommended)
