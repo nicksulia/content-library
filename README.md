@@ -34,6 +34,11 @@ After running `mongod` in console go into root folder of the project and change 
 in `serverConfig.js` on yours. **Note** that you need to change `portDB` and `databaseUrl`
  when you changing default db port.
  
+ First install all modules running: 
+ ```bash
+npm install
+ ``` 
+ 
  Then run:
  ```bash
 npm run generate-data
