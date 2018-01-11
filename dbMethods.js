@@ -4,6 +4,15 @@ const url = config.databaseUrl;
 const collection = config.collectionName;
 const database = config.databaseName;
 
+
+/**
+ * Function for searching data in db, filtering and sorting it
+ * @param searchBy - { name: string }
+ * @param sortBy - { string }
+ * @param filter - { type: string, options: Object }
+ * @param cursor - { number }
+ * @returns {Promise.<TResult>}
+ */
 export const find = ({ searchBy = {}, sortBy = "", filter = {type: ""}, cursor = 1 }) => {
     //TODO: validate params before using it and return proper errors if validation is not passed
     return new Promise((res, rej) => {
