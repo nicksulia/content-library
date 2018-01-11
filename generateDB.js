@@ -10,18 +10,38 @@ if (fs.existsSync(path.resolve(__dirname, `./dump/data.json`))) {
 }
 fs.mkdirSync(path.resolve(__dirname, './dump'));
 
+//dummy data generation
 const dataArray = [];
 const names = ['John', 'Robert', 'Liana', 'Edward', 'Ann', 'Richard', 'Amie', 'Michael', 'Lily', 'Ragnar', 'Ivar', 'Ubba', 'Loki', 'Thor', 'Odin'];
 const cities = ['New York', 'Kiev', 'Moscow', 'Berlin', 'London', 'Amsterdam', 'Vatican', 'Winterhold', 'Whiteran', 'Hummerfall'];
 const currencies = ['UAH', 'USD', 'RUB', 'EUR'];
 const languages = ['English', 'Ukrainian', 'German'];
+
+//functions - generators
+/**
+ *
+ * @param arr {Array}
+ * @returns {string}
+ */
 const randomString = (arr) => {
     return arr[Math.floor(Math.random()*arr.length)];
 };
+/**
+ *
+ * @param start {Date}
+ * @param end {Date}
+ * @returns {Date}
+ */
 const randomDate = (start, end) => {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };
 
+/**
+ *
+ * @param limit {number}
+ * @param isInt {bool}
+ * @returns {number}
+ */
 const randomNum = (limit, isInt) => {
     if (isInt) {
         return parseInt(Math.random()*limit + 1);
@@ -45,6 +65,8 @@ for ( let i = 0; i < 100000; i++ ) {
     }
 }
 fs.writeFileSync(path.resolve(__dirname, `./dump/data.json`), JSON.stringify(dataArray), fileFormat);
+
+// Uses import.bat file in root of project and imports data in db. All parameters from 'serverConfig.js'
 exec(`"${path.resolve(__dirname, './import.bat')}" ${hostDB} ${portDB} ${databaseName} ${collectionName} `, (err, stdout, stderr) => {
     if (err) {
         console.log('failed to access import.bat');
