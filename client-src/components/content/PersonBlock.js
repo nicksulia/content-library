@@ -22,6 +22,10 @@ class PersonBlock extends PureComponent {
         return (
             <div styleName = "person-block">
                 <div>
+                    <label>ID: </label>
+                    <label>{person._id}</label>
+                </div>
+                <div>
                     <label>Person name: </label>
                     <label>{person.name}</label>
                 </div>
