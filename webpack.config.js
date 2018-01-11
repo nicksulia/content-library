@@ -1,8 +1,9 @@
 const path = require('path');
+const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin;
-const CompressionPlugin = require("compression-webpack-plugin");
+//const CompressionPlugin = require("compression-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV ? process.env.NODE_ENV.trim() === "production" : false; //if production not setted
 
@@ -10,6 +11,11 @@ let plugins;
 if (isProduction) {
     plugins = [
         new ExtractTextPlugin({ filename: 'style.css', allChunks: true }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('production'),
+            },
+        }),
         new UglifyJsPlugin({
             compress: {
                 sequences: false
